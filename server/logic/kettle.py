@@ -20,7 +20,7 @@ class Kettle:
         self.__prepare_io()
 
     def __pid_loop(self):
-        pid = PID(0.1, 0, 100, 0.59, 0.150, 0.4)
+        pid = PID(0.1, 0, 100, 0.59, 0.150, 0.4) #todo move kp,ki,kd to settings
         value = 0
         heater = GPIO.PWM(self.__heater_pin, 50)
         while 1:
