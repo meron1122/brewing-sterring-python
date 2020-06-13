@@ -55,6 +55,7 @@ class Kettle:
             time.sleep(0.1)
 
     def __prepare_io(self):
+        GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.__paddle_pin, GPIO.OUT)
         GPIO.setup(self.__heater_pin, GPIO.OUT)

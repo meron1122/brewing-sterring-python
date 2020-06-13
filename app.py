@@ -4,7 +4,11 @@ import websockets
 from logic.kettle import Kettle
 import json
 
-kettle = Kettle(23, 18)
+
+with open('appsettings.json') as f:
+  settings = json.load(f)
+
+kettle = Kettle(int(settings['kettle']['heater_pin']), int(settings['kettle']['paddle_pin']))
 
 
 async def handler(websocket, path):
@@ -25,6 +29,6 @@ async def handler(websocket, path):
             break
 
 
-start_server = websockets.serve(handler, "192.168.1.144", 8765)
+start_server = websockets.serve(handler, settings['websockets']['ip'], int(settings['websockets']['port']))
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
