@@ -1,12 +1,11 @@
 #!/usr/bin/python
 import asyncio
 import websockets
-from logic.kettle import Kettle
+from server.logic import Kettle
 import json
 
-
-with open('appsettings.json') as f:
-  settings = json.load(f)
+with open('../appsettings.json') as f:
+    settings = json.load(f)
 
 kettle = Kettle(int(settings['kettle']['heater_pin']), int(settings['kettle']['paddle_pin']))
 

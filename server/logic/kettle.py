@@ -3,7 +3,7 @@ from w1thermsensor import W1ThermSensor
 import time
 import RPi.GPIO as GPIO
 
-from logic.regulators.PID import PID
+from server.logic import PID
 
 
 class Kettle:
