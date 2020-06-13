@@ -23,6 +23,8 @@ async def handler(websocket, path):
                 kettle.set_setpoint(float(message["arg"]))
             if message["command"] == "set_paddle":
                 kettle.set_paddle(bool(message["arg"]))
+            if message["command"] == "emergency_stop":
+                kettle.emergency_stop()
 
             await asyncio.sleep(0.5)
         except websockets.ConnectionClosed:  # bad solution :<

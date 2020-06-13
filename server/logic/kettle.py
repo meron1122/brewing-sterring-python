@@ -54,6 +54,10 @@ class Kettle:
                 self.temp = None
             time.sleep(0.1)
 
+    def emergency_stop(self):
+        GPIO.output(self.__paddle_pin, 0)
+        GPIO.output(self.__heater_pin, 0)
+
     def __prepare_io(self):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
