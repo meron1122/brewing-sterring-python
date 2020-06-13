@@ -5,11 +5,43 @@
 </div>
 <div class="row">
     <div class="col-12 text-center">
-        <h1>-.-&#8451;</h1>
+        <h1>{{status?.temperature}}&#8451;</h1>
+    </div>
+</div>
+<div class="row" *ngIf="status">
+    <div class="col-12 text-center">
+        <h6 *ngIf="status?.setpoint == 'None'"><i class="fas fa-crosshairs"></i> -.-&#8451;</h6>
+        <h6 *ngIf="status?.setpoint != 'None'"><i class="fas fa-crosshairs"></i> {{status?.setpoint}}&#8451;</h6>
+    </div>
+</div>
+<div class="row" *ngIf="status">
+    <div class="col-12 text-center">
+        <h6 *ngIf="status?.paddle == 'True'"><i class="fas fa-fan"></i> ON</h6>
+        <h6 *ngIf="status?.paddle == 'False'"><i class="fas fa-fan"></i> OFF</h6>
+    </div>
+</div>
+
+
+<div class="row mt-2">
+    <div class="col-12 text-center">
+        <h1>Temperatura zadana</h1>
     </div>
 </div>
 <div class="row">
     <div class="col-12 text-center">
-        <h6><i class="fas fa-crosshairs"></i> -.-&#8451;</h6>
+        <input type="number" [(ngModel)]="this.setpoint"> <button class="ml-2 btn btn-primary" (click)="sendSetpoint()"><i class="fas fa-save"> </i></button>
+    </div>
+</div>
+
+
+<div class="row mt-2">
+    <div class="col-12 text-center">
+        <h1>Mieszadło</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <button *ngIf="status?.paddle == 'False'" class="ml-2 btn btn-success" (click)="sendPaddle(true)">Włącz</button>
+        <button *ngIf="status?.paddle == 'True'" class="ml-2 btn btn-danger" (click)="sendPaddle(false)">Wyłącz</button>
     </div>
 </div>

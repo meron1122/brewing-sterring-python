@@ -15,10 +15,6 @@ async def handler(websocket, path):
     while 1:
         try:
             message = json.loads(await websocket.recv())
-            if message["command"] == "get_status":
-                status = json.dumps({"temperature": str(kettle.temp), "setpoint": str(kettle.get_setpoint()),
-                                     "paddle": str(kettle.get_paddle())})
-                await websocket.send(status)
             if message["command"] == "set_setpoint":
                 kettle.set_setpoint(float(message["arg"]))
             if message["command"] == "set_paddle":
@@ -26,7 +22,10 @@ async def handler(websocket, path):
             if message["command"] == "emergency_stop":
                 kettle.emergency_stop()
 
-            await asyncio.sleep(0.5)
+            status = json.dumps({"temperature": str(kettle.temp), "setpoint": str(kettle.get_setpoint()),
+                                 "paddle": str(kettle.get_paddle())})
+            await websocket.send(status)
+            await asyncio.sleep(0.05)
         except websockets.ConnectionClosed:  # bad solution :<
             break
 
