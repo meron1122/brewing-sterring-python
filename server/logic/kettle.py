@@ -26,13 +26,13 @@ class Kettle:
 
     def __pid_loop(self):
         pid = PID(0.1, 0, 100, 0.59, 0.150, 0.4)  # todo move kp,ki,kd to settings
-        value = 0
         heater = GPIO.PWM(self.__heater_pin, 50)
+        heater.start(0)
         while 1:
+            value = 0
             if self.temp and self.__setpoint:
                 value = pid.calc(self.__setpoint, self.temp)
                 print("Pid out:" + str(value))
-
             heater.ChangeDutyCycle(value)
             time.sleep(0.1)
 
