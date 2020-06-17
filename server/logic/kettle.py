@@ -5,6 +5,8 @@ import RPi.GPIO as GPIO
 
 from logic.regulators.PID import PID
 
+from server.logic.steering_mode import SteeringMode
+
 
 class Kettle:
     def __init__(self, heater_pin, paddle_pin):
@@ -17,10 +19,13 @@ class Kettle:
         self.__setpoint = None
         self.__paddle = False
 
+        self.__steering_mode = SteeringMode.Manual
+
         self.__heater_pin = heater_pin
         self.__paddle_pin = paddle_pin
         _thread.start_new_thread(self.__read_temp, ())
         _thread.start_new_thread(self.__pid_loop, ())
+        _thread.start_new_thread(self.__sterring_loop, ())
 
         self.__prepare_io()
 
@@ -78,3 +83,9 @@ class Kettle:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.__paddle_pin, GPIO.OUT)
         GPIO.setup(self.__heater_pin, GPIO.OUT)
+
+    def __sterring_loop(self) -> None:
+        while 1:
+            if self.__steering_mode == SteeringMode.Auto:
+                pass
+            time.sleep(0.1)
