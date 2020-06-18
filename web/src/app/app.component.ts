@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { IStatus } from 'src/shared/models/istatus';
 import { ToastrService } from 'ngx-toastr';
-
+import { setTheme } from 'ngx-bootstrap/utils';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +13,10 @@ export class AppComponent implements OnInit {
   status: Partial<IStatus>;
   setpoint: any;
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService) {
+
+    setTheme('bs4');
+  }
 
   ngOnInit(): void {
     setInterval(() => this.myWebSocket.next({command: 'get_status'}), 200);
