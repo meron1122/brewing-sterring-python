@@ -1,16 +1,11 @@
-#!/usr/bin/python
-import asyncio
-import json
-import os
-
-import websockets
 from flask import Flask, request, jsonify
 # from logic.kettle import Kettle
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
+import os
 
-from server.logic.kettle import Kettle
+
 
 app = Flask(__name__)
 CORS(app)
@@ -71,6 +66,7 @@ recipes_step_schema = RecipeStepSchema(many=True)
 recipe_step_schema = RecipeStepSchema()
 
 
+
 @app.route("/recipes", methods=["GET"])
 def get_recipes():
     recipes = Recipe.query.all()
@@ -112,37 +108,5 @@ def add_recipe_step():
     db.session.commit()
     return recipe_step_schema.dump(new_step), 201
 
-
-
-
-with open('appsettings.json') as f:
-    settings = json.load(f)
-
-kettle = Kettle(int(settings['kettle']['heater_pin']), int(settings['kettle']['paddle_pin']))
-
-
-async def handler(websocket, path):
-    while 1:
-        try:
-            message = json.loads(await websocket.recv())
-            if message["command"] == "set_setpoint":
-                kettle.set_setpoint(float(message["arg"]))
-            if message["command"] == "set_paddle":
-                kettle.set_paddle(bool(message["arg"]))
-            if message["command"] == "emergency_stop":
-                kettle.emergency_stop()
-
-            status = json.dumps({"temperature": str(kettle.temp), "setpoint": str(kettle.get_setpoint()),
-                                 "paddle": str(kettle.get_paddle())})
-            await websocket.send(status)
-            await asyncio.sleep(0.05)
-        except websockets.ConnectionClosed:  # bad solution :<
-            break
-
-
-start_server = websockets.serve(handler, settings['websockets']['ip'], int(settings['websockets']['port']))
-asyncio.get_event_loop().run_until_complete(start_server)
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,host='0.0.0.0')

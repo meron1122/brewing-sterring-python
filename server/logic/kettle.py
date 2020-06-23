@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 
 from logic.regulators.PID import PID
 
-from server.logic.steering_mode import SteeringMode
+from logic.steering_mode import SteeringMode
 
 
 class Kettle:

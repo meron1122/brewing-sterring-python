@@ -9,7 +9,7 @@ import { setTheme } from 'ngx-bootstrap/utils';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  myWebSocket: WebSocketSubject<any> = webSocket('ws://192.168.1.144:8765');
+  myWebSocket: WebSocketSubject<any> = webSocket('ws://192.168.1.141:8765');
   status: Partial<IStatus>;
   setpoint: any;
 

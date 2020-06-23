@@ -8,7 +8,7 @@ import { IRecipe } from '../models/irecipe';
 @Injectable()
 export class RecipesService  {
 
-  protected apiUrl = 'http://localhost:5000/';
+  protected apiUrl = 'http://192.168.1.141:5000/';
 
   constructor(protected http: HttpClient) {
   }
